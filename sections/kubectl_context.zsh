@@ -27,7 +27,7 @@ spaceship_kubectl_context() {
 
   spaceship::exists kubectl || return
 
-  local kube_context=$(kubectl config current-context 2>/dev/null)
+  local kube_context=$(gawk '/^current-context:/{print $2;exit;}' <~/.kube/config)
   [[ -z $kube_context ]] && return
 
   if [[ $SPACESHIP_KUBECTL_CONTEXT_SHOW_NAMESPACE == true ]]; then
